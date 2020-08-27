@@ -1,2 +1,2 @@
-#Python
-#on nomad corder challenge
+- Python
+  : on nomad corder challenge
