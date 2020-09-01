@@ -5,7 +5,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
 #링크가져오기
-import request딩
+import requests
 
 #beautifulSoup(웹크롤링 용이)
 from bs4 import BeautifulSoup
@@ -20,7 +20,7 @@ pages = paging.find_all("a")
 
 thebell_pages = []
 
-for page in pages:
-    thebell_pages.append(page.find)
+for page in pages[1:-1]:
+    thebell_pages.append(int(page.string))
 
-print(thebell_pages[0:-1])
+max_page = thebell_pages[-1]
