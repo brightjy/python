@@ -27,5 +27,6 @@ def extract_thebell_articles(last_page):
     results = soup.find_all("dl")
     for result in results:
         title = result.find("a")["title"]
-        print(title)
+        date = result.find("span", {"class":"date"})
+        print(title, date)
     return articles
