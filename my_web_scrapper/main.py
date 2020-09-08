@@ -1,7 +1,7 @@
-from thebell import extract_thebell_pages, extract_thebell_articles
+from thebell import get_articles as get_thebell_articles
+from faxnet import get_articles as get_faxnet_articles
 
-last_thebell_page = extract_thebell_pages()
+# thebell_articles = get_thebell_articles()
+faxnet_articles = get_faxnet_articles()
 
-thebell_articles = extract_thebell_articles(last_thebell_page)
-
-print(thebell_articles)
+print(faxnet_articles)

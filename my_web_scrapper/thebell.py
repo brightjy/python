@@ -9,7 +9,7 @@ LIMIT = "10"
 URL_MAIN = "http://www.thebell.co.kr/free/content/Article.asp"
 URL_ARTICLE = "http://www.thebell.co.kr/free/content/ArticleView.asp" 
 
-def extract_thebell_pages():
+def get_last_page():
     result = requests.get(URL_MAIN)
     soup = BeautifulSoup(result.text, "html.parser")
     paging = soup.find("div", {"class":"paging"})
@@ -20,7 +20,7 @@ def extract_thebell_pages():
     max_page = thebell_pages[-1]
     return max_page
 
-def extract_articles(html) :
+def extract_thebell_articles_from(html) :
     #scrapping title using select
     title_html = html.select('ul > li > dl > a > dt')
     for title in title_html:
@@ -42,7 +42,7 @@ def extract_articles(html) :
         "link": f"{URL_ARTICLE}?key={key}"
     }
 
-def extract_thebell_articles(last_page):
+def extract_articles(last_page):
     articles = []
     for page in range(last_page):
         print(f"Scrapping page {page}")
@@ -50,6 +50,11 @@ def extract_thebell_articles(last_page):
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all("div", {"class", "listBox"})
         for result in results:
-            article = extract_articles(result)
+            article = extract_thebell_articles_from(result)
             articles.append(article)
+    return articles
+
+def get_articles():
+    last_page = get_last_page()
+    articles = extract_articles(last_page)
     return articles
