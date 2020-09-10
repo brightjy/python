@@ -15,15 +15,16 @@ def get_last_page():
     last_page = pages[-3].get_text(strip=True)
     return int(last_page)
 
-def extract_article_detail(result):
+#html = result
+def extract_article(html):
     #title
-    title = result.find('h1').find('a').text
+    title = html.find('h1').find('a').text
     #sneakpeek
-    sneakpeek = result.find("div",{"class":"desc"}).find('a').find('span').text
+    sneakpeek = html.find("div",{"class":"desc"}).find('a').find('span').text
     #date
-    date = result.find("div", {"class":"pubdate"}).text
+    date = html.find("div", {"class":"pubdate"}).text
     #key
-    key = result.find('h1').find('a')['href']
+    key = html.find('h1').find('a')['href']
     return {
         'title' : title,
         'sneakpeek' : sneakpeek,
@@ -39,7 +40,7 @@ def extract_articles(last_page):
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all('div', {'class':'content'})
         for result in results:
-            article = extract_article_detail(result)
+            article = extract_article(result)
             articles.append(article)
     return articles
 
