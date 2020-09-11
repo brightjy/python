@@ -22,22 +22,22 @@ def get_last_page():
 
 def extract_thebell_articles_from(html) :
     #scrapping title using select
-    title_html = html.select('ul > li > dl > a > dt')
-    for title in title_html:
-        title = title.text
-    #scrapping content using select
-    content_html = html.select('ul > li > dl > a > dd')
-    for content in content_html:
-        content = content.text
+    titles = html.select('ul > li > dl > a > dt')
+    for title in titles :
+        title = title.text.strip()
+    #scrapping sneakpeekt using select
+    sneakpeeks = html.select('ul > li > dl > a > dd')
+    for sneakpeek in sneakpeeks :
+        sneakpeek = sneakpeek.text.strip()
     #scrapping date using class name
-    date = html.find("span", {"class", "date"}).text
+    date = html.find("span", {"class", "date"}).text.strip()
     #scrapping article key
     key_full = html.find("a")["href"]
     key_temp = key_full.strip('ArticleView.asp?key=')
     key = key_temp.strip('&lcode=00&page=1&svccode=00')
     return {
         'title': title, 
-        'content': content, 
+        'sneakpeek': sneakpeek, 
         'date': date, 
         "link": f"{URL_ARTICLE}?key={key}"
     }
@@ -45,7 +45,7 @@ def extract_thebell_articles_from(html) :
 def extract_articles(last_page):
     articles = []
     for page in range(last_page):
-        print(f"Scrapping page {page}")
+        print(f"Scrapping thebell page {page}")
         result = requests.get(f"{URL_MAIN}?page={page*LIMIT}")
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all("div", {"class", "listBox"})

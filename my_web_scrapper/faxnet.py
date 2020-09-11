@@ -18,11 +18,11 @@ def get_last_page():
 #html = result
 def extract_article(html):
     #title
-    title = html.find('h1').find('a').text
+    title = html.find('h1').find('a').text.strip()
     #sneakpeek
-    sneakpeek = html.find("div",{"class":"desc"}).find('a').find('span').text
+    sneakpeek = html.find("div",{"class":"desc"}).find('a').find('span').text.strip()
     #date
-    date = html.find("div", {"class":"pubdate"}).text
+    date = html.find("div", {"class":"pubdate"}).text.strip().strip('\r').strip('\n')
     #key
     key = html.find('h1').find('a')['href']
     return {
@@ -35,7 +35,7 @@ def extract_article(html):
 def extract_articles(last_page):
     articles = []
     for page in range(last_page):
-        print(f"Scrapping page {page}")
+        print(f"Scrapping faxnet page {page}")
         result = requests.get(f'{URL_ECONOMY}page={page}')
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all('div', {'class':'content'})
